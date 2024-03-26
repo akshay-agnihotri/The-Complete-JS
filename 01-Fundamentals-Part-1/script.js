@@ -222,9 +222,9 @@ const BMIJohn = massJohn / (heightJohn * heightJohn);
 console.log(BMIMark, BMIJohn);
 
 if (BMIMark > BMIJohn) {
-  console.log(`Mark's BMI (${BMIMark}) is higher than John's (${BMIJohn})!`)
+  console.log(`Mark's BMI (${BMIMark}) is higher than John's (${BMIJohn})!`) //here we have used tempelate literal 
 } else {
-  console.log(`John's BMI (${BMIJohn}) is higher than Marks's (${BMIMark})!`)
+  console.log(`John's BMI (${BMIJohn}) is higher than Marks's (${BMIMark})!`) //here we have used tempelate literal
 }
 
 ////////////////////////////////////
@@ -235,10 +235,10 @@ const inputYear = '1991';
 console.log(Number(inputYear), inputYear);
 console.log(Number(inputYear) + 18);
 
-console.log(Number('Jonas'));
-console.log(typeof NaN);
+console.log(Number('Jonas')); //NaN
+console.log(typeof NaN); // number
 
-console.log(String(23), 23);
+console.log(String(23), 23); //23 23
 
 // type coercion
 console.log('I am ' + 23 + ' years old');
@@ -253,14 +253,14 @@ console.log(n);
 // Truthy and Falsy Values
 
 // 5 falsy values: 0, '', undefined, null, NaN
-console.log(Boolean(0));
-console.log(Boolean(undefined));
-console.log(Boolean('Jonas'));
-console.log(Boolean({}));
-console.log(Boolean(''));
+console.log(Boolean(0)); //false
+console.log(Boolean(undefined)); //false
+console.log(Boolean('Jonas')); //true
+console.log(Boolean({})); //true
+console.log(Boolean('')); //false
 
 const money = 100;
-if (money) {
+if (money) {                            // money ===> boolean value ==> true
   console.log("Don't spend it all ;)");
 } else {
   console.log('You should get a job!');
@@ -276,9 +276,9 @@ if (height) {
 ////////////////////////////////////
 // Equality Operators: == vs. ===
 const age = '18';
-if (age === 18) console.log('You just became an adult :D (strict)');
+if (age === 18) console.log('You just became an adult :D (strict)'); //here type coercion not happens
 
-if (age == 18) console.log('You just became an adult :D (loose)');
+if (age == 18) console.log('You just became an adult :D (loose)'); // here type coercion happens
 
 const favourite = Number(prompt("What's your favourite number?"));
 console.log(favourite);
@@ -412,11 +412,11 @@ if (day === 'monday') {
 
 ////////////////////////////////////
 // Statements and Expressions
-3 + 4
-1991
-true && false && !false
+3 + 4  //expression cz it will produce some values
+1991 //expression
+true && false && !false  // expression
 
-if (23 > 10) {
+if (23 > 10) {  // statement cz it will perform some action
   const str = '23 is bigger';
 }
 
