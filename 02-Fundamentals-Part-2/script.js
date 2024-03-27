@@ -1,16 +1,34 @@
 'use strict';
 
 /*
+
+Sure! Before 2009, JavaScript operated in a certain way. Then in 2009,
+a new version called ECMAScript 5 (ES5) came along. It brought in some new
+features to JavaScript and changed how some existing things worked.
+
+Now, to make sure older code still works properly with these changes,
+most of the modifications in ES5 are turned off by default.
+You have to specifically tell JavaScript that you want to use these
+new features by including a special command at the beginning of your code.
+This command is called a directive, and it looks like this: "use strict".
+
+So, whenever you want to use the updated features and rules of ECMAScript 5,
+you start your code with "use strict". This helps ensure your code follows the
+newer standards and practices of JavaScript.
+
+*/
+
+/*
 ///////////////////////////////////////
 // Activating Strict Mode
 let hasDriversLicense = false;
 const passTest = true;
 
-if (passTest) hasDriversLicense = true;
+if (passTest) hasDriversLicense = true;               //if we write hasDriverLicense then strict mode will produce an error
 if (hasDriversLicense) console.log('I can drive :D');
 
-// const interface = 'Audio';
-// const private = 534;
+// const interface = 'Audio';          //interface is a strict mode reserved word
+// const private = 534;                //private is a strict mode private word
 
 
 ///////////////////////////////////////
@@ -59,11 +77,11 @@ console.log(age1, age2);
 ///////////////////////////////////////
 // Arrow functions
 
-const calcAge3 = birthYeah => 2037 - birthYeah;
+const calcAge3 = birthYeah => 2037 - birthYeah;   //here we don't need to write return statement it will automatically assigned to the variable
 const age3 = calcAge3(1991);
 console.log(age3);
 
-const yearsUntilRetirement = (birthYeah, firstName) => {
+const yearsUntilRetirement = (birthYeah, firstName) => {   //if there is only 1 parameter then we don't have to wrap the parameter in () braces and same stand for the {} also there are multiple statements so we have to write the return keyword
   const age = 2037 - birthYeah;
   const retirement = 65 - age;
   // return retirement;
@@ -163,7 +181,7 @@ scoreKoalas = calcAverage(23, 34, 27);
 console.log(scoreDolphins, scoreKoalas);
 checkWinner(scoreDolphins, scoreKoalas);
 
-
+//https://www.freecodecamp.org/news/immutability-in-javascript-with-examples/#:~:text=Notice%20that%20the%20original%20array,place%20and%20are%20therefore%20mutable.
 ///////////////////////////////////////
 // Introduction to Arrays
 const friend1 = 'Michael';
