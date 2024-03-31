@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Press Start 2P', system-ui;
+}
+html,
+body {
+  width: 100%;
+  min-height: 100vh;
+  /* background-color: red; */
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-height: calc(40vh - 5px);
+  margin-bottom: 5px;
+  background-color: rgba(13, 220, 13, 0.756);
+}
+header h1 {
+  color: white;
+  text-align: center;
+}
+.between {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  color: white;
+}
+.btn {
+  padding: 0.8em 1.1em;
+  color: black;
+  background-color: white;
+  border: none;
+}
+.btn.again {
+  position: absolute;
+  left: 20px;
+  top: 30px;
+}
+.number {
+  position: absolute;
+  bottom: 0;
+  transform: translate(0, 50%);
+  font-size: 1.5rem;
+  padding: 1em 2em;
+  color: black;
+  background-color: white;
+}
+main {
+  background-color: rgba(13, 220, 13, 0.756);
+  min-height: 60vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+main input {
+  background-color: transparent;
+  color: white;
+  font-size: 1rem;
+  border: 2px solid white;
+  padding: 1em 2em;
+  width: 150px;
+  text-align: center;
+}
+main input:focus {
+  outline: none;
+}
+.left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.right .message {
+  color: white;
+  margin-bottom: 40px;
+}
+.label-score {
+  color: white;
+  margin-bottom: 20px;
+}
+.label-highscore{
+    color: white;
+}
