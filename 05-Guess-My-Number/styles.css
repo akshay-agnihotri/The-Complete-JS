@@ -68,6 +68,7 @@ main input {
   padding: 1em 2em;
   width: 150px;
   text-align: center;
+  margin-top: 36px;
 }
 main input:focus {
   outline: none;
@@ -87,6 +88,6 @@ main input:focus {
   color: white;
   margin-bottom: 20px;
 }
-.label-highscore{
-    color: white;
+.label-highscore {
+  color: white;
 }
