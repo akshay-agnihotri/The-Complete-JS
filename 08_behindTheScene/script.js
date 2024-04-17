@@ -90,4 +90,168 @@ console.log(x === window.x);
 console.log(y === window.y);
 console.log(z === window.z);
 
+
+///////////////////////////////////////
+// The this Keyword in Practice
+console.log(this); //window
+
+//for normal function call ' this ==> undefined ' in strict mode
+const calcAge = function (birthYear) {
+  console.log(2037 - birthYear); //46
+  console.log(this); //undefined
+};
+// calcAge(1991);
+
+// in arrow function this ==> parent scope me this ki value
+const calcAgeArrow = birthYear => {
+  console.log(2037 - birthYear); //46
+  console.log(this); //window
+};
+calcAgeArrow(1991);
+
+
+// when method is called using object then this ===> object
+const jonas = {
+  year: 1991,
+  calcAge: function () {
+    console.log(this);
+    console.log(this.year);
+  },
+};
+
+jonas.calcAge();
+
+const matilda = {
+  year: 2017,
+};
+
+matilda.calcAge = jonas.calcAge;  //method borrowing
+matilda.calcAge();
+
+
+const f = matilda.calcAge
+f()  //undefined bcz it is a regular function call
+
+
+
+const akshay = {
+  myFirstName:'akshay',
+  year: 1991,
+  calcAge: function () {
+    console.log(this);
+    console.log(this.year);
+  },
+  greet: () => console.log(`Hey ${this.myFirstName}`)  //window.myFirstName  == undefined
+};
+
+akshay.greet()
+
+
+var myFirstName = 'tripathi';
+console.log(window.myFirstName); //tripathi
+
+const akshay = {
+  myFirstName:'akshay',
+  year: 1991,
+  calcAge: function () {
+    console.log(this);
+    console.log(this.year);
+  },
+  greet: () => console.log(`Hey ${this.myFirstName}`)  //tripathi
+};
+
+akshay.greet()
+
+
+const jonas = {
+  firstName: 'Jonas',
+  year: 1991,
+  calcAge: function () {
+    console.log(this); //window
+    function isMillenial() {
+      console.log(self); 
+      console.log(self.year >= 1981 && self.year <= 1996);
+    }
+    isMillenial(); //regular function call "this == undefined"
+  },
+};
+jonas.calcAge(); //object calling a method
+
+
+const jonas = {
+  firstName: 'Jonas',
+  year: 1991,
+  calcAge: function () {
+    console.log(this);
+
+    // Solution 1
+    // const self = this; // self or that
+    // const isMillenial = function () {
+    //   console.log(self);
+    //   console.log(self.year >= 1981 && self.year <= 1996);
+    // };
+
+    // Solution 2
+    const isMillenial = () => {
+      console.log(this);
+      console.log(this.year >= 1981 && this.year <= 1996);
+    };
+    isMillenial();  // arrowfunction call
+  },
+
+};
+jonas.calcAge();
+
+
+// arguments keyword
+const addExpr = function (a, b) {
+  console.log(arguments);
+  return a + b;
+};
+console.log(addExpr(2, 5));
+console.log(addExpr(2, 5, 8, 12));
+
+var addArrow = (a, b) => {
+  console.log(arguments);
+  return a + b;
+};
+addArrow(2, 5, 8);
+
+
+///////////////////////////////////////
+// Objects vs. primitives
+let age = 30;
+let oldAge = age;
+age = 31;
+console.log(age); //31
+console.log(oldAge); //30
+
+const me = {
+  name: 'Jonas',
+  age: 30,
+};
+const friend = me;
+friend.age = 27;
+console.log('Friend:', friend);
+// {name: 'Jonas', age: 27}
+console.log('Me', me);
+//{name: 'Jonas', age: 27}
+
+
+// Copying objects
+const jessica2 = {
+  firstName: 'Jessica',
+  lastName: 'Williams',
+  age: 27,
+  family: ['Alice', 'Bob'],
+};
+
+const jessicaCopy = Object.assign({}, jessica2);
+jessicaCopy.lastName = 'Davis';
+
+jessicaCopy.family.push('Mary');
+jessicaCopy.family.push('John');
+
+console.log('Before marriage:', jessica2);
+console.log('After marriage: ', jessicaCopy);
 */
