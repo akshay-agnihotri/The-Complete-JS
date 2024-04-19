@@ -513,3 +513,15 @@ const printGoals = function (...players) {
 // 7.
 team1 < team2 && console.log('Team 1 is more likely to win');
 team1 > team2 && console.log('Team 2 is more likely to win');
+
+///////////////////////////////////////
+// The for-of Loop
+const menu3 = [...restaurant.starterMenu, ...restaurant.mainMenu];
+
+for (const item of menu3) console.log(item);
+
+for (const [i, el] of menu3.entries()) {
+  console.log(`${i + 1}: ${el}`);
+}
+
+// console.log([...menu.entries()]);
