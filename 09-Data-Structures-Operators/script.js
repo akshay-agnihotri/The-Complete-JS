@@ -80,7 +80,6 @@ console.log(i, j, k);
 // Default values
 const [p, q, r = 1] = [8, 9];
 
-
 ///////////////////////////////////////
 // Destructuring Objects
 
@@ -179,11 +178,11 @@ const arr = [7, 8, 9];
 const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
 console.log(badNewArr); //1,2,7,8,9
 
-const newArr = [1, 2, ...arr]; 
+const newArr = [1, 2, ...arr];
 console.log(newArr); //1,2,7,8,9
 
-console.log(...newArr);  //1 2 7 8 9
-console.log(1, 2, 7, 8, 9);  //1 2 7 8 9
+console.log(...newArr); //1 2 7 8 9
+console.log(1, 2, 7, 8, 9); //1 2 7 8 9
 
 const newMenu = [...restaurant.mainMenu, 'Gnocci'];
 console.log(newMenu); //['Pizza', 'Pasta', 'Risotto', 'Gnocci']
@@ -227,8 +226,6 @@ const restaurantCopy = { ...restaurant };
 restaurantCopy.name = 'Ristorante Roma';
 console.log(restaurantCopy.name);
 console.log(restaurant.name);
-
-
 
 ///////////////////////////////////////
 // Rest Pattern and Parameters
@@ -280,7 +277,7 @@ add(8, 2, 5, 3, 2, 1, 4);
 
 const n = [23, 5, 7];
 add(...n);
-*/
+
 // orderPizza(mainIngredient, ...otherIngredients) {
 //   console.log(mainIngredient);
 //   console.log(otherIngredients);
@@ -294,3 +291,42 @@ restaurant.orderPizza('mushrooms');
 // o/p
 // mushrooms
 // []
+
+///////////////////////////////////////
+// Short Circuiting (&& and ||)
+
+console.log('---- OR ----');
+// Use ANY data type, return ANY data type, short-circuiting
+console.log(3 || 'Jonas'); //3
+console.log('' || 'Jonas'); //jonas
+console.log(true || 0); //true
+console.log(undefined || null); //null
+
+console.log(undefined || 0 || '' || 'Hello' || 23 || null); //Hello
+
+restaurant.numGuests = 0;
+const guests1 = restaurant.numGuests ? restaurant.numGuests : 10;
+console.log(guests1); //10
+
+const guests2 = restaurant.numGuests || 10;
+console.log(guests2); //10
+
+console.log('---- AND ----');
+console.log(0 && 'Jonas'); //0
+console.log(7 && 'Jonas'); //jonas
+
+console.log('Hello' && 23 && null && 'jonas'); //null
+
+// orderPizza(mainIngredient, ...otherIngredients) {
+//   console.log(mainIngredient);
+//   console.log(otherIngredients);
+// },
+
+// Practical example
+if (restaurant.orderPizza) {
+  restaurant.orderPizza('mushrooms', 'spinach'); //mushrooms ['spinach']
+}
+
+restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'spinach'); //mushrooms ['spinach']
+
+*/
