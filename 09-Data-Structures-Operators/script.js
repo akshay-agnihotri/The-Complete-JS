@@ -45,7 +45,7 @@ const restaurant = {
     console.log(otherIngredients);
   },
 };
-/*
+
 ///////////////////////////
 // Array Destructuring
 const arr1 = [2, 3, 4];
@@ -329,4 +329,13 @@ if (restaurant.orderPizza) {
 
 restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'spinach'); //mushrooms ['spinach']
 
-*/
+
+///////////////////////////////////////
+// The Nullish Coalescing Operator
+restaurant.numGuests = 0;
+const guests = restaurant.numGuests || 10;
+console.log(guests); //10
+
+// Nullish: null and undefined (NOT 0 or '') are the only falsy values
+const guestCorrect = restaurant.numGuests ?? 10;
+console.log(guestCorrect); //0
