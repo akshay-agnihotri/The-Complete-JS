@@ -526,7 +526,6 @@ for (const [i, el] of menu3.entries()) {
 
 // console.log([...menu.entries()]);
 
-
 ///////////////////////////////////////
 // openingHours: {
 //   [weekdays[3]]: {
@@ -543,7 +542,7 @@ for (const [i, el] of menu3.entries()) {
 //   },
 // },
 // Optional Chaining
-console.log("------optional chaining--------");
+console.log('------optional chaining--------');
 
 if (restaurant.openingHours && restaurant.openingHours.mon)
   console.log(restaurant.openingHours.mon.open);
@@ -604,3 +603,123 @@ const entries = Object.entries(openingHours);
 for (const [day, { open, close }] of entries) {
   console.log(`On ${day} we open at ${open} and close at ${close}`);
 }
+
+///////////////////////////////////////
+// Coding Challenge #2
+
+/* 
+Let's continue with our football betting app!
+
+1. Loop over the game2.scored array and print each player name to the console, along with the goal number (Example: "Goal 1: Lewandowski")
+2. Use a loop to calculate the average odd and log it to the console (We already studied how to calculate averages, you can go check if you don't remember)
+3. Print the 3 odds to the console, but in a nice formatted way, exaclty like this:
+      Odd of victory Bayern Munich: 1.33
+      Odd of draw: 3.25
+      Odd of victory Borrussia Dortmund: 6.5
+Get the team names directly from the game object, don't hardcode them (except for "draw"). HINT: Note how the odds and the game objects have the same property names 😉
+
+BONUS: Create an object called 'scorers' which contains the names of the players who scored as properties, and the number of goals as the value. In this game, it will look like this:
+      {
+        Gnarby: 1,
+        Hummels: 1,
+        Lewandowski: 2
+      }
+
+GOOD LUCK 😀
+*/
+
+const game2 = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowski',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witsel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};
+
+
+// 1)
+// console.log(Object.entries(game2.scored));
+
+for (let [key, player] of Object.entries(game2.scored)) {
+  console.log(`Goal ${parseInt(key) + 1}: ${player}`);
+}
+
+
+
+// 2)
+// console.log(game2.odds);
+let avg = 0;
+for (let value of Object.values(game2.odds)) {
+  avg += value;
+}
+console.log(avg / Object.keys(game2.odds).length);
+
+
+
+// 3)
+let teamName;
+let op;
+// console.log(Object.entries(game2.odds));
+
+// for(let [key , value] of Object.entries(game2.odds)){
+//     console.log(game2[key]);
+// }
+for (let [key, value] of Object.entries(game2.odds)) {
+  teamName = game2[key] ?? 'draw'; //null and undefined are falsy values
+  op =
+    teamName === game2[key]
+      ? `Odd of victory ${teamName}: ${value}`
+      : `Odd of ${teamName}: ${value}`;
+  console.log(op);
+}
+
+
+
+// 4)
+const scorers = {}; //created a empty object
+
+// function to create the key:value pair in an object
+function createProperty(key, value) {
+  scorers[key] = value;
+}
+// createProperty('Lewandowski' , 1);
+// console.log(scorers);
+
+// console.log(game2.scored);
+for (let x of game2.scored) {
+  scorers[x] ? createProperty(x, ++scorers[x]) : createProperty(x, 1);
+}
+console.log(scorers);
