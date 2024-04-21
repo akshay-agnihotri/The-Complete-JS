@@ -975,10 +975,10 @@ console.log(announcement.replace('door', 'gate'));
 console.log(announcement.replace(/door/g, 'gate'));
 
 // Booleans
-const plane = 'Airbus A320neo';
-console.log(plane.includes('A320'));
-console.log(plane.includes('Boeing'));
-console.log(plane.startsWith('Airb'));
+const plane1 = 'Airbus A320neo';
+console.log(plane1.includes('A320'));
+console.log(plane1.includes('Boeing'));
+console.log(plane1.startsWith('Airb'));
 
 if (plane.startsWith('Airbus') && plane.endsWith('neo')) {
   console.log('Part of the NEW ARirbus family');
