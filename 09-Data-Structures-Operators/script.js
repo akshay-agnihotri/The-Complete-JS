@@ -940,7 +940,7 @@ console.log(typeof new String('jonas').slice(1));
 ///////////////////////////////////////
 // Working With Strings - Part 2
 
-const airline = 'TAP Air Portugal';
+const airline1 = 'TAP Air Portugal';
 
 console.log(airline.toLowerCase());
 console.log(airline.toUpperCase());
