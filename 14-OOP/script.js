@@ -97,23 +97,66 @@ console.dir(x => x + 1);
     GOOD LUCK 😀
 */
 
-const Car = function(make,currentSpeed){
-    this.make = make;
-    this.speed = `${parseInt(currentSpeed)}km/h`;
-}
-Car.prototype.accelerate = function(){
-    this.speed = `${parseInt(this.speed) + 10}km/h`;
-    console.log(this.speed);
-}
-Car.prototype.brake = function(){
-    this.speed = `${parseInt(this.speed) - 5}km/h`;
-    console.log(this.speed);
-}
+const Car = function (make, currentSpeed) {
+  this.make = make;
+  this.speed = `${parseInt(currentSpeed)}km/h`;
+};
+Car.prototype.accelerate = function () {
+  this.speed = `${parseInt(this.speed) + 10}km/h`;
+  console.log(this.speed);
+};
+Car.prototype.brake = function () {
+  this.speed = `${parseInt(this.speed) - 5}km/h`;
+  console.log(this.speed);
+};
 
-let car1 = new Car('BMW' , '120km/h');
-let car2 = new Car('Mercedes','95km/h');
+let car1 = new Car('BMW', '120km/h');
+let car2 = new Car('Mercedes', '95km/h');
 
 console.log(car1);
 car1.accelerate();
 car1.brake();
 console.log(car1);
+
+///////////////////////////////////////
+// ES6 Classes
+
+// since classes are also function behind the scene so they have both class declaration and class expression
+// Class expression
+// const PersonCl = class {}
+
+// Class declaration
+class PersonCl {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  // Instance methods
+  // Methods will be added to .prototype property
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  }
+
+  greet() {
+    console.log(`Hey ${this.fullName}`);
+  }
+}
+
+const jessica = new PersonCl('Jessica Davis', 1996);
+console.log(jessica); //PersonCl {fullName: 'Jessica Davis', birthYear: 1996}
+jessica.calcAge(); //41
+console.log(jessica.age); //undefined
+
+console.log(jessica.__proto__ === PersonCl.prototype);
+
+// PersonCl.prototype.greet = function () {
+//   console.log(`Hey ${this.firstName}`);
+// };
+jessica.greet();
+
+// 1. Classes are NOT hoisted
+// 2. Classes are first-class citizens  // means we can pass class into the function and return it from a function
+// 3. Classes are executed in strict mode // the code inside classes will be executed in strict mode
+
+
