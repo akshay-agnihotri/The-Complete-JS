@@ -141,9 +141,19 @@ class PersonCl {
   greet() {
     console.log(`Hey ${this.fullName}`);
   }
+
+  // Set a property that already exists ( 'it is very useful in form validation' )
+  set fullName(name) {
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name!`);
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
 }
 
-const jessica = new PersonCl('Jessica Davis', 1996);
+const jessica = new PersonCl('Jessica devis', 1996);
 console.log(jessica); //PersonCl {fullName: 'Jessica Davis', birthYear: 1996}
 jessica.calcAge(); //41
 console.log(jessica.age); //undefined
@@ -159,4 +169,26 @@ jessica.greet();
 // 2. Classes are first-class citizens  // means we can pass class into the function and return it from a function
 // 3. Classes are executed in strict mode // the code inside classes will be executed in strict mode
 
+///////////////////////////////////////
+// Setters and Getters
+const account = {
+  owner: 'Jonas',
+  movements: [200, 530, 120, 300],
 
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+
+  set latest(mov) {
+    this.movements.push(mov);
+  },
+};
+
+console.log(account.latest);
+
+account.latest = 50;
+console.log(account.movements);
+
+//1.what happened if jessica name does not have space (const jessica = new PersonCl('Jessica', 1996);)
+//2.what happened if class personCl doenot have get fullname() {}
+console.log(jessica.fullName);
