@@ -151,6 +151,12 @@ class PersonCl {
   get fullName() {
     return this._fullName;
   }
+
+  // Static method
+  static hey() {
+    console.log('Hey there 👋');
+    console.log(this);
+  }
 }
 
 const jessica = new PersonCl('Jessica devis', 1996);
@@ -192,3 +198,12 @@ console.log(account.movements);
 //1.what happened if jessica name does not have space (const jessica = new PersonCl('Jessica', 1996);)
 //2.what happened if class personCl doenot have get fullname() {}
 console.log(jessica.fullName);
+
+/////////////////////////
+//static method
+
+// Array.from(1,2,3); we can use it bcz from method is present in the constructor function of Array
+// [1,2,3].from(); we can not do this bcz the from method is not present in Array.prototype object
+
+const walter = new PersonCl('Walter White', 1965);
+PersonCl.hey(); //hey is a static method so it this keyword will point to whole class
