@@ -279,7 +279,6 @@ class CarCl {
   set speedUS(speed) {
     this.speed = speed * 1.6;
   }
-
 }
 
 const CAR1 = new CarCl('BMW', 120);
@@ -287,7 +286,6 @@ console.log(CAR1);
 console.log(CAR1.speedUS);
 CAR1.speedUS = 120;
 console.log(CAR1);
-
 
 ///////////////////////////////////////
 // Inheritance Between "Classes": Constructor Functions
@@ -327,3 +325,61 @@ console.log(mike instanceof Object);
 
 Student.prototype.constructor = Student;
 console.dir(Student.prototype.constructor);
+
+
+///////////////////////////////////////
+// Coding Challenge #3
+
+/* 
+1. Use a constructor function to implement an Electric Car (called EV) as a CHILD "class" of Car. Besides a make and current speed, the EV also has the current battery charge in % ('charge' property);
+2. Implement a 'chargeBattery' method which takes an argument 'chargeTo' and sets the battery charge to 'chargeTo';
+3. Implement an 'accelerate' method that will increase the car's speed by 20, and decrease the charge by 1%. Then log a message like this: 'Tesla going at 140 km/h, with a charge of 22%';
+4. Create an electric car object and experiment with calling 'accelerate', 'brake' and 'chargeBattery' (charge to 90%). Notice what happens when you 'accelerate'! HINT: Review the definiton of polymorphism 😉
+
+DATA CAR 1: 'Tesla' going at 120 km/h, with a charge of 23%
+
+GOOD LUCK 😀
+*/
+
+// this code is already been written above so need it to write it again.
+// const Car = function (make, currentSpeed) {
+//   this.make = make;
+//   this.speed = `${parseInt(currentSpeed)}km/h`;
+// };
+// Car.prototype.accelerate = function () {
+//   this.speed = `${parseInt(this.speed) + 10}km/h`;
+//   console.log(this.speed);
+// };
+// Car.prototype.brake = function () {
+//   this.speed = `${parseInt(this.speed) - 5}km/h`;
+//   console.log(this.speed);
+// };
+
+const EV = function (charge, make, currentSpeed) {
+  Car.call(this, make, currentSpeed);
+  this.charge = charge;
+};
+
+// Linking EV with Car
+EV.prototype = Object.create(Car.prototype);
+EV.prototype.constructor = EV;
+
+EV.prototype.chargeBattery = function (chargeTo) {
+  this.charge = chargeTo;
+};
+
+EV.prototype.accelerate = function () {
+  this.speed = `${parseInt(this.speed) + 20}km/h`;
+  this.charge -= 1;
+  console.log(
+    `${this.make} going at ${this.speed}, with a charge of ${this.charge}%`
+  );
+};
+
+const obj_car = new EV(23, 'Tesla', 120);
+// console.log(obj_car.charge ,obj_car.make , obj_car.speed);
+
+console.dir(obj_car);
+
+obj_car.accelerate();
+obj_car.brake();
