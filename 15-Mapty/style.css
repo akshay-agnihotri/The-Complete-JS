@@ -212,8 +212,11 @@
     background-color: var(--color-dark--1);
   }
   
-  .running-popup .leaflet-popup-content-wrapper {
+  .running-popup .leaflet-popup-content-wrapper{
     border-left: 5px solid var(--color-brand--2);
+  }
+  .leaflet-popup-tip-container{
+    transform: translateY(-4px);
   }
   .cycling-popup .leaflet-popup-content-wrapper {
     border-left: 5px solid var(--color-brand--1);
