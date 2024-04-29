@@ -40,6 +40,7 @@ const options = {
 };
 
 function success(pos) {
+  // Making a simple map
   const { latitude, longitude } = pos.coords;
   const map = L.map('map').setView([latitude, longitude], 14);
 
@@ -49,26 +50,27 @@ function success(pos) {
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
 
+  // Adding a event listener to add Marker
   function onMapClick(e) {
     const { lat, lng } = e.latlng;
     const marker = L.marker([lat, lng], {
       draggable: true,
-      maxWidth:300,
-      minWidth:50,
-      className:'running-popup',
+      maxWidth: 300,
+      minWidth: 50,
+      className: 'running-popup',
     }).addTo(map);
-    
+
     const popup = L.popup({
-      maxWidth:300,
-      minWidth:50,
-      autoClose:false,
-      closeOnEscapeKey:false,
-      className:'running-popup',
-      closeOnClick:false,
+      maxWidth: 300,
+      minWidth: 50,
+      autoClose: false,
+      closeOnEscapeKey: false,
+      className: 'running-popup',
+      closeOnClick: false,
     })
-    .setLatLng([lat, lng])
-    .setContent("Running")
-    .openOn(map);
+      .setLatLng([lat, lng])
+      .setContent('Running')
+      .openOn(map);
     // fetchReverseGeocodeData(lat, lng, marker);
 
     // marker.on('dragend', function (e) {
