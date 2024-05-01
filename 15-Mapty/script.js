@@ -15,16 +15,17 @@ class Workout {
   date = new Date();
   id = (Date.now() + '').slice(-10);
 
-  constructor(distance, duration, coords) {
+  constructor(distance, duration, coords,type) {
     this.distance = distance; // in min
     this.duration = duration; //in km
     this.coords = coords; //[lat,lng]
+    this.type = type; //running or cycling
   }
 }
 
 class Running extends Workout {
-  constructor(distance, duration, coords, cadence) {
-    super(distance, duration, coords);
+  constructor(distance, duration, coords, cadence,type) {
+    super(distance, duration, coords,type);
     this.cadence = cadence;
     this.calcPace();
   }
@@ -37,8 +38,8 @@ class Running extends Workout {
 }
 
 class Cycling extends Workout {
-  constructor(distance, duration, coords, elevationGain) {
-    super(distance, duration, coords);
+  constructor(distance, duration, coords, elevationGain,type) {
+    super(distance, duration, coords,type);
     this.elevationGain = elevationGain;
     this.calcSpeed();
   }
@@ -53,6 +54,8 @@ class App {
   #map;
   #lat;
   #lng;
+  #workouts = [];
+
   constructor() {
     // As the page loads then the constructor function will trigger => _getPosition() => _loadMap()
     this._getPosition();
@@ -96,13 +99,8 @@ class App {
     inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
   }
 
-  _newWorkOut(e) {
-    e.preventDefault();
-    // 1.on submit the form we have to make the input field empty
-    inputDistance.value = inputDuration.value = inputCadence.value = '';
-    // 2.on selecting the type 'cycling' then the 'Cadence' will appear[line no.82]
-
-    const marker = L.marker([this.#lat, this.#lng], {
+  _renderWorkoutMarker(workout) {
+    const marker = L.marker(workout.coords, {
       draggable: true,
       maxWidth: 300,
       minWidth: 50,
@@ -114,16 +112,78 @@ class App {
       minWidth: 50,
       autoClose: false,
       closeOnEscapeKey: false,
-      className: 'running-popup',
+      className: `${workout.type}-popup`,
       closeOnClick: false,
     })
-      .setLatLng([this.#lat, this.#lng])
+      .setLatLng(workout.coords)
       .setContent('Running')
       .openOn(this.#map);
   }
+
+  _newWorkOut(e) {
+    e.preventDefault();
+    //1.check if the input values are correct or not if not then show alert otherwise create an workout object
+    const checkValidInput = function (...inputs) {
+      // for (let i = 0; i < inputs.length; i++)
+      //   if ((!Number.isFinite(inputs[i])) || (inputs[i] == 0) ) return false;
+      // return true
+      return inputs.every(input => Number.isFinite(input));
+    };
+
+    const allPositive = function (...inputs) {
+      return inputs.every(input => input > 0);
+    };
+
+    // get data from form
+    const type = inputType.value;
+    const distance = +inputDistance.value;
+    const duration = +inputDuration.value;
+    let workout;
+    //creating a 'coords' array
+    const coords = [this.#lat, this.#lng];
+
+    // If workout running, create running object
+    if (type === 'running') {
+      const cadence = +inputCadence.value;
+      if (
+        // !Number.isFinite(distance) ||
+        // !Number.isFinite(duration) ||
+        // !Number.isFinite(cadence)
+        !checkValidInput(cadence, distance, duration) ||
+        !allPositive(cadence, distance, duration)
+      )
+        return alert('Inputs have to be positive numbers!');
+
+      workout = new Running(distance, duration, coords, cadence, type);
+    }
+
+    // If workout cycling, create cycling object
+    if (type === 'cycling') {
+      const elevation = +inputElevation.value;
+      if (
+        !checkValidInput(elevation, distance, duration) ||
+        !allPositive(distance, duration)
+      )
+        return alert('Inputs have to be positive numbers!');
+      workout = new Cycling(distance, duration, coords, elevation, type);
+    }
+
+    // 2.on submit the form we have to make the input field empty
+    inputDistance.value =
+      inputDuration.value =
+      inputCadence.value =
+      inputElevation.value =
+        '';
+
+    // 3.On selecting the type 'cycling' then the 'Cadence' will appear[have done in constructor function in line 3]
+
+    // 4.push the data of workout object into the array
+    this.#workouts.push(workout);
+
+    // 5.Render workout on map as marker
+    this._renderWorkoutMarker(workout);
+  }
+  
 }
 
 const app = new App();
-
-
-
