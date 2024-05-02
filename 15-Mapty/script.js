@@ -1,8 +1,5 @@
 'use strict';
 
-// prettier-ignore
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
 const inputType = document.querySelector('.form__input--type');
@@ -15,19 +12,27 @@ class Workout {
   date = new Date();
   id = (Date.now() + '').slice(-10);
 
-  constructor(distance, duration, coords,type) {
+  constructor(distance, duration, coords, type) {
     this.distance = distance; // in min
     this.duration = duration; //in km
     this.coords = coords; //[lat,lng]
     this.type = type; //running or cycling
   }
+  _setDiscription() {
+    // prettier-ignore
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    this.discription = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${
+      months[this.date.getMonth()]
+    } ${this.date.getDate()}`;
+  }
 }
 
 class Running extends Workout {
-  constructor(distance, duration, coords, cadence,type) {
-    super(distance, duration, coords,type);
+  constructor(distance, duration, coords, cadence, type) {
+    super(distance, duration, coords, type);
     this.cadence = cadence;
     this.calcPace();
+    this._setDiscription();
   }
 
   calcPace() {
@@ -38,10 +43,11 @@ class Running extends Workout {
 }
 
 class Cycling extends Workout {
-  constructor(distance, duration, coords, elevationGain,type) {
-    super(distance, duration, coords,type);
+  constructor(distance, duration, coords, elevationGain, type) {
+    super(distance, duration, coords, type);
     this.elevationGain = elevationGain;
     this.calcSpeed();
+    this._setDiscription();
   }
   calcSpeed() {
     // km/h
@@ -59,8 +65,10 @@ class App {
   constructor() {
     // As the page loads then the constructor function will trigger => _getPosition() => _loadMap()
     this._getPosition();
+    this._getLocalStorage();
     form.addEventListener('submit', this._newWorkOut.bind(this));
     inputType.addEventListener('change', this._toggleElevationField);
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
   }
 
   _getPosition() {
@@ -94,9 +102,32 @@ class App {
     inputDistance.focus();
   }
 
+  _hideForm() {
+    // form.style.display = 'none';
+    form.style.display = 'none';
+    form.classList.add('hidden');
+    setTimeout(function () {
+      form.style.display = 'grid';
+    }, 1000);
+  }
+
   _toggleElevationField() {
     inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
     inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
+  }
+
+  _moveToPopup(e) {
+    const workoutEl = e.target.closest('.workout');
+    if (!workoutEl) return;
+    const workout = this.#workouts.find(
+      workout => workout.id === workoutEl.dataset.id
+    );
+    this.#map.setView(workout.coords, 14, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
   }
 
   _renderWorkoutMarker(workout) {
@@ -116,17 +147,77 @@ class App {
       closeOnClick: false,
     })
       .setLatLng(workout.coords)
-      .setContent('Running')
+      .setContent(`${workout.discription}`)
       .openOn(this.#map);
+  }
+
+  _renderWorkout(workout) {
+    let html = `
+      <li class="workout workout--${workout.type}" data-id="${workout.id}">
+      <h2 class="workout__title">${workout.discription}</h2>
+      <div class="workout__details">
+        <span class="workout__icon">${
+          workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'
+        }</span>
+        <span class="workout__value">${workout.distance}</span>
+        <span class="workout__unit">km</span>
+      </div>
+      <div class="workout__details">
+        <span class="workout__icon">⏱</span>
+        <span class="workout__value">${workout.duration}</span>
+        <span class="workout__unit">min</span>
+      </div>
+    `;
+
+    if (workout.type === 'running')
+      html += `
+        <div class="workout__details">
+          <span class="workout__icon">⚡️</span>
+          <span class="workout__value">${workout.pace.toFixed(1)}</span>
+          <span class="workout__unit">min/km</span>
+        </div>
+        <div class="workout__details">
+          <span class="workout__icon">🦶🏼</span>
+          <span class="workout__value">${workout.cadence}</span>
+          <span class="workout__unit">spm</span>
+        </div>
+      </li>
+      `;
+
+    if (workout.type === 'cycling')
+      html += `
+        <div class="workout__details">
+          <span class="workout__icon">⚡️</span>
+          <span class="workout__value">${workout.speed.toFixed(1)}</span>
+          <span class="workout__unit">km/h</span>
+        </div>
+        <div class="workout__details">
+          <span class="workout__icon">⛰</span>
+          <span class="workout__value">${workout.elevationGain}</span>
+          <span class="workout__unit">m</span>
+        </div>
+      </li>
+    `;
+
+    form.insertAdjacentHTML('afterend', html);
+  }
+
+  _setLocalStorage() {
+    localStorage.setItem("workouts", JSON.stringify(this.#workouts));
+  }
+
+  _getLocalStorage() {
+    this.#workouts = JSON.parse(localStorage.getItem('workouts'));
+
+    this.#workouts.forEach((work) => {
+      this._renderWorkout(work);
+    })
   }
 
   _newWorkOut(e) {
     e.preventDefault();
     //1.check if the input values are correct or not if not then show alert otherwise create an workout object
     const checkValidInput = function (...inputs) {
-      // for (let i = 0; i < inputs.length; i++)
-      //   if ((!Number.isFinite(inputs[i])) || (inputs[i] == 0) ) return false;
-      // return true
       return inputs.every(input => Number.isFinite(input));
     };
 
@@ -169,11 +260,8 @@ class App {
     }
 
     // 2.on submit the form we have to make the input field empty
-    inputDistance.value =
-      inputDuration.value =
-      inputCadence.value =
-      inputElevation.value =
-        '';
+    // prettier-ignore
+    inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value = '';
 
     // 3.On selecting the type 'cycling' then the 'Cadence' will appear[have done in constructor function in line 3]
 
@@ -182,8 +270,16 @@ class App {
 
     // 5.Render workout on map as marker
     this._renderWorkoutMarker(workout);
+
+    //6.Render workout in a list
+    this._renderWorkout(workout);
+
+    //7.hiding the form
+    this._hideForm();
+
+    //8.storing the data into local storage
+    this._setLocalStorage();
   }
-  
 }
 
 const app = new App();
