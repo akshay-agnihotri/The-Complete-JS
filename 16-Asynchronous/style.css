@@ -25,6 +25,7 @@ html,body{
     gap: 40px;
     align-items: center;
     padding: 10px;
+    opacity: 0;
 }
 
 .country{
